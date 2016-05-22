@@ -9,7 +9,7 @@ public class SimpleCache<K, V>
   
   public V get(K key, Callable<V> ifAbsent)
   {
-    V value = this.map.get(key);
+    V value = map.get(key);
     if (value == null)
     {
       try
@@ -20,7 +20,7 @@ public class SimpleCache<K, V>
       {
         throw new RuntimeException(e);
       }
-      this.map.putIfAbsent(key, value);
+      map.putIfAbsent(key, value);
     }
     return value;
   }

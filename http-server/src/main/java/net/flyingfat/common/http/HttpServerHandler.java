@@ -16,6 +16,8 @@ import net.flyingfat.common.lang.transport.Receiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -52,7 +54,7 @@ public class HttpServerHandler extends
 		if (HttpHeaders.is100ContinueExpected(request)) {
 			ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
 		}
-
+		
 		Object signal = requestDecoder.transform(request);
 		if (null != signal) {
 			Endpoint endpoint = TransportUtil.getEndpointOfCtx(ctx);
@@ -76,7 +78,7 @@ public class HttpServerHandler extends
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		if (logger.isDebugEnabled()) {
-			logger.debug("channelOpen: {}", ctx.channel());
+			logger.debug("channelActive: {}", ctx.channel());
 		}
 		Endpoint endpoint = endpointFactory
 				.createEndpoint(ctx, responseEncoder);
@@ -89,7 +91,7 @@ public class HttpServerHandler extends
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		if (logger.isDebugEnabled()) {
-			logger.debug("channelClosed: {}", ctx.channel());
+			logger.debug("channelInactive: {}", ctx.channel());
 		}
 		Endpoint endpoint = TransportUtil.getEndpointOfCtx(ctx);
 		if (null != endpoint) {
@@ -126,10 +128,6 @@ public class HttpServerHandler extends
 
 	public void setMessageClosure(Receiver messageClosure) {
 		this.endpointFactory.setMessageClosure(messageClosure);
-	}
-
-	public void setResponseContext(Holder responseContext) {
-		this.endpointFactory.setResponseContext(responseContext);
 	}
 
 	public void setEndpointFactory(EndpointFactory endpointFactory) {

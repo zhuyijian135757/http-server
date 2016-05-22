@@ -9,14 +9,12 @@ import io.netty.handler.codec.http.FullHttpResponse;
 
 public class DefaultEndpointFactory implements EndpointFactory {
 	private Receiver messageClosure = null;
-	private Holder responseContext = new DefaultHolder();
 
 	public Endpoint createEndpoint(ChannelHandlerContext ctx,
 			Transformer<Object, FullHttpResponse> responseEncoder) {
 		ServerEndpoint endpoint = new ServerEndpoint();
 		endpoint.setCtx(ctx);
 		endpoint.setMessageClosure(messageClosure);
-		endpoint.setResponseContext(responseContext);
 		endpoint.setResponseEncoder(responseEncoder);
 		endpoint.start();
 
@@ -27,8 +25,5 @@ public class DefaultEndpointFactory implements EndpointFactory {
 		this.messageClosure = messageClosure;
 	}
 
-	public void setResponseContext(Holder responseContext) {
-		this.responseContext = responseContext;
-	}
 
 }

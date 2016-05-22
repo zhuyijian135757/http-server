@@ -1,6 +1,6 @@
 package net.flyingfat.common.lang.transport;
 
-public abstract interface Sender
+public interface Sender
 {
   public abstract void send(Object paramObject);
   

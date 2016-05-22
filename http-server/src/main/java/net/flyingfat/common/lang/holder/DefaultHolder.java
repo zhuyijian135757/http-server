@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultHolder
   implements Holder
 {
-  private Map<Object, Object> map = new ConcurrentHashMap();
+  private Map<Object, Object> map = new ConcurrentHashMap<Object, Object>();
   
   public void put(Object key, Object value)
   {

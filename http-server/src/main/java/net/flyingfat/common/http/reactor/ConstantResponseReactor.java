@@ -40,8 +40,8 @@ public class ConstantResponseReactor implements HttpReactor {
 		if (uuid != null) {
 			this.response.headers().set("uuid", uuid);
 		}
-		this.responseSender.sendResponse(ctx, this.response);
-		if (null != this.nextReactor) {
+		responseSender.sendResponse(ctx, response);
+		if (null != nextReactor) {
 			this.nextReactor.onHttpRequest(null, request);
 		}
 	}

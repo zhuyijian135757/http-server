@@ -23,37 +23,21 @@ public class ServerEndpoint implements Endpoint {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ServerEndpoint.class);
 	private Receiver messageClosure = null;
-	private Holder responseContext = null;
-	private KeyTransformer keyTransformer = new KeyTransformer();
 	private ChannelHandlerContext ctx = null;
 	private HttpResponseSender httpResponseSender = new DefaultHttpResponseSender();
 	private Transformer<Object, FullHttpResponse> responseEncoder = new HttpResponseEncoder();
 	private InetSocketAddress addr = null;
-	private Object identity;
+	private HttpRequest req;
 
 	public void send(Object bean) {
 		if (null != bean) {
-			Object key = this.keyTransformer.transform(bean);
-			if (key == null) {
-				logger.warn("req identification is null ");
-				doExceptionSend();
-				return;
-			}
-			if (getResponseContext() == null) {
-				logger.warn("key is {}, but responseContext is null", key);
-				doExceptionSend();
-				return;
-			}
-			HttpRequest req = (HttpRequest) getResponseContext().getAndRemove(
-					key);
+			HttpRequest req = getReq();
 			if (req == null) {
-				logger.warn("key is {},but cannot getAndRemove HttpRequest",
-						key);
+				logger.warn("cannot get HttpRequest");
 				doExceptionSend();
 				return;
 			}
 			TransportUtil.attachRequest(bean, req);
-
 			doSend(bean);
 		}
 	}
@@ -63,23 +47,13 @@ public class ServerEndpoint implements Endpoint {
 	}
 
 	public void messageReceived(Object msg) {
-		Object key = this.keyTransformer.transform(msg);
-		if (key != null) {
-			getResponseContext().put(key, TransportUtil.getRequestOf(msg));
-			setIdentity(key);
-		} else {
-			logger.error("req key is null");
-		}
-		if (this.messageClosure != null) {
-			this.messageClosure.messageReceived(msg);
+		setReq(TransportUtil.getRequestOf(msg));
+		if (messageClosure != null) {
+			messageClosure.messageReceived(msg);
 		}
 	}
 
 	public void stop() {
-		if (getResponseContext() != null && identity != null) {
-			getResponseContext().remove(identity);
-		}
-		this.responseContext = null;
 		this.messageClosure = null;
 		this.ctx = null;
 	}
@@ -89,15 +63,15 @@ public class ServerEndpoint implements Endpoint {
 
 	private void doSend(Object bean) {
 		if (bean != null) {
-			HttpResponse response = (HttpResponse) this.responseEncoder
+			HttpResponse response = (HttpResponse) responseEncoder
 					.transform(bean);
-			this.httpResponseSender.sendResponse(this.ctx, response);
+			httpResponseSender.sendResponse(ctx, response);
 		}
 	}
 
 	private void doExceptionSend() {
 		HttpResponse response = ConstantResponse.getResponseServerBusy();
-		this.httpResponseSender.sendResponse(this.ctx, response);
+		httpResponseSender.sendResponse(ctx, response);
 	}
 
 	public void setCtx(ChannelHandlerContext ctx) {
@@ -111,18 +85,6 @@ public class ServerEndpoint implements Endpoint {
 
 	public void setMessageClosure(Receiver messageClosure) {
 		this.messageClosure = messageClosure;
-	}
-
-	public void setResponseContext(Holder responseContext) {
-		this.responseContext = responseContext;
-	}
-
-	public Holder getResponseContext() {
-		return this.responseContext;
-	}
-
-	public void setKeyTransformer(KeyTransformer keyTransformer) {
-		this.keyTransformer = keyTransformer;
 	}
 
 	public IpPortPair getRemoteAddress() {
@@ -140,12 +102,12 @@ public class ServerEndpoint implements Endpoint {
 		this.addr = addr;
 	}
 
-	public Object getIdentity() {
-		return identity;
+	public HttpRequest getReq() {
+		return req;
 	}
 
-	public void setIdentity(Object identity) {
-		this.identity = identity;
+	public void setReq(HttpRequest req) {
+		this.req = req;
 	}
 
 }

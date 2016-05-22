@@ -12,7 +12,6 @@ public class MainCourse extends BaseCourse {
 
   private static Logger     logger   = LoggerFactory.getLogger(MainCourse.class);
 
-
   @BizMethod
   public void onSimpleBizReq(SimpleBizReq req) {
     if (logger.isInfoEnabled()) {
@@ -20,14 +19,13 @@ public class MainCourse extends BaseCourse {
     }
 
     SimpleBizResp resp = new SimpleBizResp();
-    this.sendBaseNormalResponse(req, resp);
+    sendBaseNormalResponse(req, resp);
     
     if (logger.isInfoEnabled()) {
     	logger.info("<----------send resp, resp = {}",resp.toString());
     }
   }
 
-  
   
   
 }

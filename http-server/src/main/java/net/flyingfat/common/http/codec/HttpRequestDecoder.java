@@ -50,11 +50,11 @@ public class HttpRequestDecoder
       ByteBuf content = request.content();
       byte[] bytes = new byte[content.readableBytes()];
       content.readBytes(bytes);
-      if ((logger.isDebugEnabled()) && (this.isDebugEnabled)) {
+      if ((logger.isDebugEnabled()) && (isDebugEnabled)) {
         logger.debug(ByteUtil.bytesAsHexString(bytes, this.dumpBytes));
       }
       XipSignal signal = decodeXipSignal(bytes);
-      if ((logger.isDebugEnabled()) && (this.isDebugEnabled)) {
+      if ((logger.isDebugEnabled()) && (isDebugEnabled)) {
         logger.debug("decoded signal:{}", ToStringBuilder.reflectionToString(signal));
       }
       return signal;

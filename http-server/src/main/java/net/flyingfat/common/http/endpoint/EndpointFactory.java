@@ -8,10 +8,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpResponse;
 
 public interface EndpointFactory {
+	
 	public abstract Endpoint createEndpoint(ChannelHandlerContext ctx,
 			Transformer<Object, FullHttpResponse> paramTransformer);
 
 	public abstract void setMessageClosure(Receiver paramReceiver);
 
-	public abstract void setResponseContext(Holder paramHolder);
 }
