@@ -1,6 +1,10 @@
 
 package net.flyingfat.common.http;
 
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLException;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -21,26 +25,25 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 public final class HttpServer {
 
-    static final boolean SSL = System.getProperty("ssl") != null;
-    static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "8080"));
-    private HttpServerHandler httpServerHandler;
+	private  Boolean ssl;
+	private  String  ip;
+    private  Integer  port;
+    private  HttpServerHandler httpServerHandler;
 
-    public void start() throws Exception {
-        // Configure SSL.
-        final SslContext sslCtx;
-        if (SSL) {
-            SelfSignedCertificate ssc = new SelfSignedCertificate();
-            sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
-        } else {
-            sslCtx = null;
-        }
-
-        // Configure the server.
+    public void start() {
+    	final SslContext sslCtx=getSSLContext();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
-            b.option(ChannelOption.SO_BACKLOG, 1024);
+            b.option(ChannelOption.SO_BACKLOG, 10240)
+             .option(ChannelOption.SO_REUSEADDR, true)
+             .option(ChannelOption.SO_KEEPALIVE, true)
+             .option(ChannelOption.TCP_NODELAY, true)
+             .option(ChannelOption.SO_LINGER, -1)
+             .option(ChannelOption.SO_SNDBUF, -1)
+             .option(ChannelOption.SO_RCVBUF, 1024);
+             
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
              .handler(new LoggingHandler(LogLevel.INFO))
@@ -48,7 +51,7 @@ public final class HttpServer {
             	    @Override
             	    public void initChannel(SocketChannel ch) {
             	        ChannelPipeline p = ch.pipeline();
-            	        if (sslCtx != null) {
+            	        if (getSSLContext() != null) {
             	            p.addLast(sslCtx.newHandler(ch.alloc()));
             	        }
             	        p.addLast(new HttpServerCodec());
@@ -56,13 +59,29 @@ public final class HttpServer {
             	        p.addLast(httpServerHandler);
             	    }
              });
-
-            Channel ch = b.bind(PORT).sync().channel();
-            ch.closeFuture().sync();
-        } finally {
+            Channel ch;
+			ch = b.bind(ip,port).sync().channel();
+			ch.closeFuture().sync();
+            
+        }catch(InterruptedException e){
+        	e.printStackTrace();
+        }finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+    
+    public SslContext getSSLContext(){
+        SslContext sslCtx = null;;
+        if (ssl) {
+            try {
+            	SelfSignedCertificate ssc = new SelfSignedCertificate();
+				sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
+			} catch (SSLException | CertificateException e) {
+				e.printStackTrace();
+			}
+        }
+        return sslCtx;
     }
 
 	public HttpServerHandler getHttpServerHandler() {
@@ -72,5 +91,17 @@ public final class HttpServer {
 	public void setHttpServerHandler(HttpServerHandler httpServerHandler) {
 		this.httpServerHandler = httpServerHandler;
 	}
-    
+
+	public void setSsl(Boolean ssl) {
+		this.ssl = ssl;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public void setPort(Integer port) {
+		this.port = port;
+	}
+
 }

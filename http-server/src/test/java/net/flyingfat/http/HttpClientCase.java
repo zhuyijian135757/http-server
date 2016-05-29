@@ -22,8 +22,8 @@ import net.flyingfat.common.biz.xip.SimpleBizReq;
 import net.flyingfat.common.biz.xip.SimpleBizResp;
 import net.flyingfat.common.http.codec.HttpRequestEncoder;
 import net.flyingfat.common.http.codec.HttpResponseDecoder;
-import net.flyingfat.common.serialization.protocol.meta.DefaultMsgCode2TypeMetainfo;
-import net.flyingfat.common.serialization.protocol.meta.MetainfoUtils;
+import net.flyingfat.common.serialization.protocol.meta.DefaultMsgCode2Type;
+import net.flyingfat.common.serialization.protocol.meta.MsgCode2TypeFactory;
 import net.flyingfat.common.serialization.protocol.xip.XipSignal;
 
 public class HttpClientCase extends TestCase {
@@ -36,7 +36,8 @@ public class HttpClientCase extends TestCase {
 		
 		  List<String> pkgs=new ArrayList<String>();
 		  pkgs.add("net.flyingfat.common.biz.xip.*");
-		  DefaultMsgCode2TypeMetainfo typeMetaInfo=MetainfoUtils.createTypeMetainfo(pkgs);
+		  MsgCode2TypeFactory msgCode2TypeFactory=new MsgCode2TypeFactory();
+		  DefaultMsgCode2Type typeMetaInfo=msgCode2TypeFactory.createMsgCode2Type(pkgs);
 		
 		   encoder.setDebugEnabled(true);
 		   encoder.setEncryptKey("__jDlog_".getBytes());
@@ -62,7 +63,7 @@ public class HttpClientCase extends TestCase {
 		HttpClient client = new DefaultHttpClient();
 		
 		try {
-			HttpPost post = new HttpPost("http://127.0.0.1:8080");
+			HttpPost post = new HttpPost("http://127.0.0.1:7903");
 			post.setHeader(
 					"User-Agent",
 					"Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; Nexus One Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");

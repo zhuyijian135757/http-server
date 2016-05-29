@@ -23,7 +23,7 @@ import net.flyingfat.common.serialization.bytebean.context.DecResult;
 import net.flyingfat.common.serialization.bytebean.context.DefaultDecContextFactory;
 import net.flyingfat.common.serialization.bytebean.context.DefaultEncContextFactory;
 import net.flyingfat.common.serialization.bytebean.field.DefaultField2Desc;
-import net.flyingfat.common.serialization.protocol.meta.MsgCode2TypeMetainfo;
+import net.flyingfat.common.serialization.protocol.meta.MsgCode2Type;
 import net.flyingfat.common.serialization.protocol.xip.XipHeader;
 import net.flyingfat.common.serialization.protocol.xip.XipSignal;
 
@@ -47,7 +47,7 @@ public class HttpResponseDecoder
 {
   private static final Logger logger = LoggerFactory.getLogger(HttpResponseDecoder.class);
   private BeanFieldCodec byteBeanCodec;
-  private MsgCode2TypeMetainfo typeMetaInfo;
+  private MsgCode2Type typeMetaInfo;
   private int dumpBytes = 256;
   private boolean isDebugEnabled;
   private byte[] encryptKey;
@@ -146,7 +146,7 @@ public class HttpResponseDecoder
     return this.byteBeanCodec;
   }
   
-  public void setTypeMetaInfo(MsgCode2TypeMetainfo typeMetaInfo)
+  public void setTypeMetaInfo(MsgCode2Type typeMetaInfo)
   {
     this.typeMetaInfo = typeMetaInfo;
   }
@@ -156,7 +156,7 @@ public class HttpResponseDecoder
     this.dumpBytes = dumpBytes;
   }
   
-  public MsgCode2TypeMetainfo getTypeMetaInfo()
+  public MsgCode2Type getTypeMetaInfo()
   {
     return this.typeMetaInfo;
   }

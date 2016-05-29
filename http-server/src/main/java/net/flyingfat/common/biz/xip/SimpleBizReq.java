@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.flyingfat.common.serialization.bytebean.annotation.ByteField;
 import net.flyingfat.common.serialization.protocol.annotation.SignalCode;
-import net.flyingfat.common.serialization.protocol.meta.MessageCode;
+import net.flyingfat.common.serialization.protocol.meta.MsgCode;
 
 
-@SignalCode(messageCode = MessageCode.MSG_CODE_FOR_SIMPLE_BIZ_REQ)
+@SignalCode(messageCode = MsgCode.MSG_CODE_FOR_SIMPLE_BIZ_REQ)
 public class SimpleBizReq extends BaseXipRequest {
 
     @ByteField(index = 0, description = "uid")

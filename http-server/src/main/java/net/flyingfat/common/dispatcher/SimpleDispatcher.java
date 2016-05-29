@@ -149,7 +149,7 @@ public class SimpleDispatcher implements Receiver {
 				bizMethod.invoke(course, new Object[] { msg });
 			} catch (Exception e) {
 				if (logger.isErrorEnabled()) {
-					logger.error("Invoke biz method {} failed, error info {}", new Object[]{bizMethod.getName(), e});
+					logger.error("Invoke biz method {} failed, error info {}", new Object[]{bizMethod.getName(), e.getMessage()});
 				}
 			}
 		} else if (logger.isErrorEnabled()) {
@@ -165,7 +165,6 @@ public class SimpleDispatcher implements Receiver {
 		for (BizCourse course : courses) {
 			Method[] methods = ClassUtil.getAllMethodOf(course.getClass());
 			for (Method method : methods) {
-				System.out.println(method.getName());
 				BizMethod biz = (BizMethod) method
 						.getAnnotation(BizMethod.class);
 				if (null != biz) {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">   
+	    <property name="url" value="${biz.jdbc.url}" />  
+	    <property name="username" value="${biz.jdbc.username}" />  
+	    <property name="password" value="${biz.jdbc.password}" />  
+	    <property name="initialSize" value="${biz.jdbc.initialPoolSize}" />  
+	    <property name="minIdle" value="${biz.jdbc.minIdle}" />   
+	    <property name="maxActive" value="${biz.jdbc.maxActive}" />  
+	    <property name="maxWait" value="${biz.jdbc.maxWait}" />  
+	    <property name="timeBetweenEvictionRunsMillis" value="${biz.jdbc.timeBetweenEvictionRunsMillis}" />  
+	    <property name="minEvictableIdleTimeMillis" value="${biz.jdbc.minEvictableIdleTimeMillis}" />  
+	    <property name="validationQuery" value="${biz.jdbc.validationQuery}" />  
+	    <property name="testWhileIdle" value="${biz.jdbc.testWhileIdle}" />  
+	    <property name="testOnBorrow" value="${biz.jdbc.testOnBorrow}" />  
+	    <property name="testOnReturn" value="${biz.jdbc.testOnReturn}" />  
+	    <property name="poolPreparedStatements" value="${biz.jdbc.poolPreparedStatements}" />  
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="${biz.jdbc.maxPoolPreparedStatementPerConnectionSize}" />  
+	    <property name="filters" value="stat" /> 
+	</bean> 
+	
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource" />  
+    	<property name="configLocation" value="classpath:mybaits/mybatis-config.xml"></property>  
+	</bean>
+	
+	<bean id="hostMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+	    <property name="mapperInterface" value="net.flyingfat.common.biz.dao.HostMapper"></property>  
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
+	</bean> 
+
+</beans>
