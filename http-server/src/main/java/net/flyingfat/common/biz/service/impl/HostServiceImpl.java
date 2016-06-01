@@ -7,24 +7,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import net.flyingfat.common.biz.dao.HostMapper;
+import net.flyingfat.common.biz.dao.impl.HostDao;
 import net.flyingfat.common.biz.domain.Host;
 import net.flyingfat.common.biz.service.IHostService;
 
 import com.google.gson.Gson;
 
-@Service
-public class HostServiceImpl implements IHostService{
+@Service("hostService")
+public class HostServiceImpl implements IHostService   {
 
 	@Autowired
-	private HostMapper hostMapper;
+	private HostDao hostDao;
+	
 	
 	public String getHostAddrJsonStr() {
 		List<Host> hosts=new ArrayList<Host>();
-		hosts=hostMapper.getHost();
+		hosts=hostDao.getHost();
 		Gson gson=new Gson();
 		Map<String,Set<String>> map=new HashMap<String,Set<String>>(); 
 		for(Host addr : hosts){
@@ -39,6 +44,4 @@ public class HostServiceImpl implements IHostService{
 		return gson.toJson(map);
 	}
 
-	
-	
 }
