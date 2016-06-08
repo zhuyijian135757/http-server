@@ -10,6 +10,33 @@ http://www.springframework.org/schema/context/spring-context-2.5.xsd
 http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
-    <context:component-scan base-package="com.bjsxt"/> 
-    <aop:aspectj-autoproxy/>  <!-- 要添加本行 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="msgCode2TypeFactory" class="net.flyingfat.common.serialization.protocol.meta.MsgCode2TypeFactory"></bean>
+	<bean id="msgCode2Type" factory-bean="msgCode2TypeFactory"  factory-method="createMsgCode2Type" >
+		<constructor-arg>
+			<list>
+				<value>net.flyingfat.common.biz.xip.*</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="httpRequestEncoder" class="net.flyingfat.common.http.codec.HttpRequestEncoder">
+		<property name="encryptKey" value="${httpresp.body.encrypt.key}"></property>
+		<property name="reserved" value="1"></property>
+	</bean>
+
+	<bean id="httpResponseDecoder" class="net.flyingfat.common.http.codec.HttpResponseDecoder">
+		<property name="decryptKey" value="${httpreq.body.decrypt.key}" ></property>
+		<property name="msgCode2Type" ref="msgCode2Type"></property>
+	</bean>
+
 </beans>

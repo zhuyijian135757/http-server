@@ -149,7 +149,7 @@ public class SimpleDispatcher implements Receiver {
 				bizMethod.invoke(course, new Object[] { msg });
 			} catch (Exception e) {
 				if (logger.isErrorEnabled()) {
-					logger.error("Invoke biz method {} failed, error info {}", new Object[]{bizMethod.getName(), e.getMessage()});
+					logger.error("Invoke biz method {} failed, error info {}", new Object[]{bizMethod.getName(), e});
 				}
 			}
 		} else if (logger.isErrorEnabled()) {

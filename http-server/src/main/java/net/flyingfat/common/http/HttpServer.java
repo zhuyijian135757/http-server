@@ -2,9 +2,8 @@
 package net.flyingfat.common.http;
 
 import java.security.cert.CertificateException;
-
 import javax.net.ssl.SSLException;
-
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -23,14 +22,14 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 
-public final class HttpServer {
+public final class HttpServer implements SmartInitializingSingleton  {
 
 	private  Boolean ssl;
 	private  String  ip;
     private  Integer  port;
     private  HttpServerHandler httpServerHandler;
 
-    public void start() {
+    public void afterSingletonsInstantiated() {
     	final SslContext sslCtx=getSSLContext();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();

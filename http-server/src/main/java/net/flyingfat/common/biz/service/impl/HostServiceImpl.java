@@ -1,19 +1,12 @@
 package net.flyingfat.common.biz.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
-
-import net.flyingfat.common.biz.dao.HostMapper;
 import net.flyingfat.common.biz.dao.impl.HostDao;
 import net.flyingfat.common.biz.domain.Host;
 import net.flyingfat.common.biz.service.IHostService;
@@ -25,11 +18,9 @@ public class HostServiceImpl implements IHostService   {
 
 	@Autowired
 	private HostDao hostDao;
-	
-	
+
 	public String getHostAddrJsonStr() {
-		List<Host> hosts=new ArrayList<Host>();
-		hosts=hostDao.getHost();
+		List<Host> hosts=hostDao.getHost();
 		Gson gson=new Gson();
 		Map<String,Set<String>> map=new HashMap<String,Set<String>>(); 
 		for(Host addr : hosts){
@@ -43,5 +34,8 @@ public class HostServiceImpl implements IHostService   {
 		}
 		return gson.toJson(map);
 	}
+	
+	
+
 
 }
