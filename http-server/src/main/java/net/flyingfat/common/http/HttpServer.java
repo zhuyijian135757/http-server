@@ -2,8 +2,11 @@
 package net.flyingfat.common.http;
 
 import java.security.cert.CertificateException;
+
 import javax.net.ssl.SSLException;
+
 import org.springframework.beans.factory.SmartInitializingSingleton;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -20,6 +23,8 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.HashedWheelTimer;
 
 
 public final class HttpServer implements SmartInitializingSingleton  {
@@ -43,6 +48,7 @@ public final class HttpServer implements SmartInitializingSingleton  {
              .option(ChannelOption.SO_SNDBUF, -1)
              .option(ChannelOption.SO_RCVBUF, 1024);
              
+            final HashedWheelTimer timer=new HashedWheelTimer(); 
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
              .handler(new LoggingHandler(LogLevel.INFO))
@@ -53,6 +59,7 @@ public final class HttpServer implements SmartInitializingSingleton  {
             	        if (getSSLContext() != null) {
             	            p.addLast(sslCtx.newHandler(ch.alloc()));
             	        }
+            	        p.addLast(new IdleStateHandler(10, 0 , 0));
             	        p.addLast(new HttpServerCodec());
             	        p.addLast(new HttpObjectAggregator(1048576));
             	        p.addLast(httpServerHandler);
@@ -76,7 +83,9 @@ public final class HttpServer implements SmartInitializingSingleton  {
             try {
             	SelfSignedCertificate ssc = new SelfSignedCertificate();
 				sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
-			} catch (SSLException | CertificateException e) {
+			} catch (SSLException e) {
+				e.printStackTrace();
+			}catch (CertificateException e){
 				e.printStackTrace();
 			}
         }
