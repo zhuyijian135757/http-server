@@ -2,7 +2,7 @@ package net.flyingfat.common.biz.dao.impl;
 
 import java.util.List;
 
-import net.flyingfat.common.biz.aop.Jcache;
+import net.flyingfat.common.biz.aop.CacheAno;
 import net.flyingfat.common.biz.dao.HostMapper;
 import net.flyingfat.common.biz.domain.Host;
 

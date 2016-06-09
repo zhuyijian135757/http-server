@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class CacheAop {
-	@Around(value="@annotation(jcache)")
-	public Object interceptor(ProceedingJoinPoint pjp,Jcache jcache) throws Throwable {
+	@Around(value="@annotation(cacheAno)")
+	public Object interceptor(ProceedingJoinPoint pjp,CacheAno cacheAno) throws Throwable {
 		return pjp.proceed();
 	}
 }

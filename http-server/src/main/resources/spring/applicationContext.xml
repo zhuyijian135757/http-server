@@ -44,6 +44,7 @@
 
 	<bean id="httpResponseEncoder" class="net.flyingfat.common.http.codec.HttpResponseEncoder">
 		<property name="encryptKey" value="${httpresp.body.encrypt.key}"></property>
+		<property name="keepAliveFlag" value="${http.header.keepalive.flag}" />
 	</bean>
 	
 	<bean id="dispatcher" class="net.flyingfat.common.dispatcher.SimpleDispatcher">

@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value=ElementType.METHOD)
-public @interface Jcache {
-	String key() default "";
+public @interface LogAno {
 
 }

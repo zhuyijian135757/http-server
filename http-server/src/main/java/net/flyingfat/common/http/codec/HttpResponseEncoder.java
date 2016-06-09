@@ -78,7 +78,7 @@ public class HttpResponseEncoder implements
 			}
 			String keepAlive = req.headers().get("Connection");
 			if (StringUtils.isNotBlank(keepAlive)
-					&& StringUtils.isBlank(keepAliveFlag)) {
+					&& !keepAliveFlag.equals("false")) {
 				resp.headers().set("Connection", keepAlive);
 			} else {
 				resp.headers().set("Connection", keepAliveFlag);
