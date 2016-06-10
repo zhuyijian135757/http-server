@@ -48,7 +48,6 @@ public final class HttpServer implements SmartInitializingSingleton  {
              .option(ChannelOption.SO_SNDBUF, -1)
              .option(ChannelOption.SO_RCVBUF, 1024);
              
-            final HashedWheelTimer timer=new HashedWheelTimer(); 
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
              .handler(new LoggingHandler(LogLevel.INFO))
@@ -59,9 +58,9 @@ public final class HttpServer implements SmartInitializingSingleton  {
             	        if (getSSLContext() != null) {
             	            p.addLast(sslCtx.newHandler(ch.alloc()));
             	        }
-            	        p.addLast(new IdleStateHandler(10, 0 , 0));
             	        p.addLast(new HttpServerCodec());
             	        p.addLast(new HttpObjectAggregator(1048576));
+            	        p.addLast(new IdleStateHandler(10, 10 , 10));
             	        p.addLast(httpServerHandler);
             	    }
              });
