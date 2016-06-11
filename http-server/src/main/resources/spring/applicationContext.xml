@@ -15,7 +15,7 @@
             http://www.springframework.org/schema/cache
         	http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-	<context:component-scan base-package="net.flyingfat.common.biz"/>
+	<context:component-scan base-package="net.flyingfat.common"/>
 	<cache:annotation-driven cache-manager="cacheManager"  />
 	
 	<bean id="propertyConfigurer"
@@ -62,7 +62,7 @@
 		<property name="messageClosure" ref="dispatcher"></property>
 	</bean>
 	
-	<bean id="httpServer" class="net.flyingfat.common.http.HttpServer">
+	<bean id="httpServer" class="net.flyingfat.common.http.HttpServer" >
 		<property name="ip" value="${http.server.bind.ip}"></property>
 	    <property name="port" value="${http.server.bind.port}"></property>
 	    <property name="ssl" value="${https.enable.boolean}"></property>
@@ -87,5 +87,11 @@
           class="org.springframework.cache.ehcache.EhCacheCacheManager" >
           <property name="cacheManager" ref="ehcache"></property>
     </bean>
+    
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+    	<property name="locateExistingServerIfPossible" value="true"/>
+    	<property name="agentId" value=""/>
+    </bean>
+    
 
 </beans>

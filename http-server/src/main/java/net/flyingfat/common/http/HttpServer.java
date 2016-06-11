@@ -5,10 +5,13 @@ import java.security.cert.CertificateException;
 
 import javax.net.ssl.SSLException;
 
+import net.flyingfat.common.booter.Booter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
@@ -28,6 +31,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 
 public final class HttpServer implements SmartInitializingSingleton  {
 
+	private  final Logger logger = LoggerFactory.getLogger(Booter.class);
 	private  Boolean ssl;
 	private  String  ip;
     private  Integer  port;
@@ -63,15 +67,9 @@ public final class HttpServer implements SmartInitializingSingleton  {
             	        p.addLast(httpServerHandler);
             	    }
              });
-            Channel ch;
-			ch = b.bind(ip,port).sync().channel();
-			ch.closeFuture().sync();
-            
-        }catch(InterruptedException e){
-        	e.printStackTrace();
-        }finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
+             b.bind(ip,port).sync();
+        }catch(Exception e){
+        	logger.error("start HttpServer error {} ",e.getMessage());
         }
     }
     
