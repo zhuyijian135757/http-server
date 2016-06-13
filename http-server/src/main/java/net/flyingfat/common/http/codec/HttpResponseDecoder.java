@@ -91,7 +91,7 @@ public class HttpResponseDecoder extends MessageToMessageDecoder<Object> {
 		}
 		byte[] bodyBytes = ArrayUtils.subarray(bytes, XipHeader.HEADER_LENGTH,
 				bytes.length);
-		if (header != null && header.getReserved() != XipHeader.CONTENT_DES) {
+		if (header != null && header.getDes() == XipHeader.CONTENT_DES) {
 			try {
 				bodyBytes = DESUtil.decrypt(bodyBytes, getDecryptKey());
 			} catch (Exception e) {

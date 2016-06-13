@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public interface Identifiable
 {
-  public abstract void setIdentification(UUID paramUUID);
+    void setIdentification(UUID paramUUID);
   
-  public abstract UUID getIdentification();
+    UUID getIdentification();
   
-  public abstract void setReserved(int paramInt);
-  
-  public abstract int getReserved();
+	int getDes();
+
+	void setDes(int des); 
 }

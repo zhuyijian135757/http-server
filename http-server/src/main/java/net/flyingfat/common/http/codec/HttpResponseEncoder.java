@@ -61,7 +61,7 @@ public class HttpResponseEncoder implements
 		if ((signal instanceof XipSignal)) {
 			byte[] bytes = encodeXip((XipSignal) signal);
 			if ((logger.isDebugEnabled())) {
-				logger.debug("signal as hex:{} \r\n{} ",
+				logger.debug("signal as hex:{}",
 						ByteUtil.bytesAsHexString(bytes, dumpBytes));
 			}
 			if (null != bytes) {
@@ -88,11 +88,11 @@ public class HttpResponseEncoder implements
 	}
 
 	private byte[] encodeXip(XipSignal signal) {
-		Integer reserved = signal.getReserved();
+		int des = signal.getDes();
 		byte[] bytesBody = getByteBeanCodec().encode(
 				getByteBeanCodec().getEncContextFactory().createEncContext(
 						signal, signal.getClass(), null));
-		if (reserved != null && reserved != XipHeader.CONTENT_DES) {
+		if (des == XipHeader.CONTENT_DES) {
 			try {
 				bytesBody = DESUtil.encrypt(bytesBody, getEncryptKey());
 			} catch (Exception e) {
@@ -109,7 +109,7 @@ public class HttpResponseEncoder implements
 				attr.messageCode(), bytesBody.length);
 
 		header.setTypeForClass(signal.getClass());
-		header.setReserved(reserved);
+		header.setDes(des);
 
 		byte[] bytes = ArrayUtils
 				.addAll(getByteBeanCodec()

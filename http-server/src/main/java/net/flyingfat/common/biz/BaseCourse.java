@@ -15,7 +15,7 @@ public class BaseCourse implements BizCourse {
 
   public void sendBaseNormalResponse(BaseXipRequest req, BaseXipResponse resp) {
     resp.setIdentification(req.getIdentification());
-    resp.setReserved(req.getReserved());
+    resp.setDes(req.getDes());
     Sender sender = TransportUtil.getSenderOf(req);
     sender.send(resp);
   }
