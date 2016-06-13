@@ -7,7 +7,7 @@ import net.flyingfat.common.lang.DefaultPropertiesSupport;
 public class AbstractXipSignal extends DefaultPropertiesSupport implements
 		XipSignal {
 	private UUID uuid = UUID.randomUUID();
-	private int reserved;
+	private int  des;
 
 	public void setIdentification(UUID id) {
 		this.uuid = id;
@@ -17,18 +17,18 @@ public class AbstractXipSignal extends DefaultPropertiesSupport implements
 		return this.uuid;
 	}
 
-	public void setReserved(int reserved) {
-		this.reserved = reserved;
+	public int getDes() {
+		return des;
 	}
 
-	public int getReserved() {
-		return this.reserved;
+	public void setDes(int des) {
+		this.des = des;
 	}
 
 	public int hashCode() {
 		int prime = 31;
 		int result = super.hashCode();
-		result = 31 * result + (this.uuid == null ? 0 : this.uuid.hashCode());
+		result = prime * result + (this.uuid == null ? 0 : this.uuid.hashCode());
 		return result;
 	}
 

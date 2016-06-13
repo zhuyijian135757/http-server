@@ -31,7 +31,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	
 	<bean id="httpRequestEncoder" class="net.flyingfat.common.http.codec.HttpRequestEncoder">
 		<property name="encryptKey" value="${httpresp.body.encrypt.key}"></property>
-		<property name="reserved" value="1"></property>
+		<property name="des" value="0"></property>
 	</bean>
 
 	<bean id="httpResponseDecoder" class="net.flyingfat.common.http.codec.HttpResponseDecoder">

@@ -70,7 +70,7 @@ public class HttpRequestDecoder implements Transformer<FullHttpRequest, Object> 
 		}
 		byte[] bodyBytes = ArrayUtils.subarray(bytes, XipHeader.HEADER_LENGTH,
 				bytes.length);
-		if (header != null && header.getReserved() != XipHeader.CONTENT_DES) {
+		if (header != null && header.getDes() == XipHeader.CONTENT_DES) {
 			try {
 				bodyBytes = DESUtil.decrypt(bodyBytes, getDecryptKey());
 			} catch (Exception e) {
@@ -83,7 +83,7 @@ public class HttpRequestDecoder implements Transformer<FullHttpRequest, Object> 
 						bodyBytes, type, null, null)).getValue();
 		if (null != signal) {
 			signal.setIdentification(header.getTransactionAsUUID());
-			signal.setReserved(header.getReserved());
+			signal.setDes(header.getDes());
 		}
 		return signal;
 	}

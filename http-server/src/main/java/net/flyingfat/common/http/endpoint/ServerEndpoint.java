@@ -9,7 +9,6 @@ import net.flyingfat.common.http.response.HttpResponseSender;
 import net.flyingfat.common.lang.IpPortPair;
 import net.flyingfat.common.lang.KeyTransformer;
 import net.flyingfat.common.lang.Transformer;
-import net.flyingfat.common.lang.holder.Holder;
 import net.flyingfat.common.lang.transport.Receiver;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpResponse;

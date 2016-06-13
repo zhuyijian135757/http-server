@@ -10,7 +10,6 @@ import net.flyingfat.common.http.reactor.ConstantResponseReactor;
 import net.flyingfat.common.http.reactor.HttpReactor;
 import net.flyingfat.common.http.response.ConstantResponse;
 import net.flyingfat.common.lang.Transformer;
-import net.flyingfat.common.lang.holder.Holder;
 import net.flyingfat.common.lang.transport.Receiver;
 
 import org.slf4j.Logger;
