@@ -1,6 +1,5 @@
 package net.flyingfat.common.serialization.bytebean.annotation;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

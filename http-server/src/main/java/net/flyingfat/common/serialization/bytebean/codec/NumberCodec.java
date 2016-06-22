@@ -1,26 +1,25 @@
 package net.flyingfat.common.serialization.bytebean.codec;
 
-public abstract interface NumberCodec
-{
-  public abstract String convertCharset(String paramString);
-  
-  public abstract byte[] short2Bytes(short paramShort, int paramInt);
-  
-  public abstract byte[] int2Bytes(int paramInt1, int paramInt2);
-  
-  public abstract byte[] long2Bytes(long paramLong, int paramInt);
-  
-  public abstract byte[] float2Bytes(float paramFloat, int paramInt);
-  
-  public abstract byte[] double2Bytes(double paramDouble, int paramInt);
-  
-  public abstract short bytes2Short(byte[] paramArrayOfByte, int paramInt);
-  
-  public abstract int bytes2Int(byte[] paramArrayOfByte, int paramInt);
-  
-  public abstract long bytes2Long(byte[] paramArrayOfByte, int paramInt);
-  
-  public abstract float bytes2Float(byte[] paramArrayOfByte, int paramInt);
-  
-  public abstract double bytes2Double(byte[] paramArrayOfByte, int paramInt);
+public interface NumberCodec {
+	String convertCharset(String paramString);
+
+	byte[] short2Bytes(short paramShort, int paramInt);
+
+	byte[] int2Bytes(int paramInt1, int paramInt2);
+
+	byte[] long2Bytes(long paramLong, int paramInt);
+
+	byte[] float2Bytes(float paramFloat, int paramInt);
+
+	byte[] double2Bytes(double paramDouble, int paramInt);
+
+	short bytes2Short(byte[] paramArrayOfByte, int paramInt);
+
+	int bytes2Int(byte[] paramArrayOfByte, int paramInt);
+
+	long bytes2Long(byte[] paramArrayOfByte, int paramInt);
+
+	float bytes2Float(byte[] paramArrayOfByte, int paramInt);
+
+	double bytes2Double(byte[] paramArrayOfByte, int paramInt);
 }
