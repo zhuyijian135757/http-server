@@ -24,7 +24,7 @@ public class BeanCodecUtil
   
   public List<ByteFieldDesc> getFieldDesces(final Class<?> clazz)
   {
-    return this.descesCache.get(clazz, new Callable<List<ByteFieldDesc>>()
+    return descesCache.get(clazz, new Callable<List<ByteFieldDesc>>()
     {
       public List<ByteFieldDesc> call()
       {
@@ -34,13 +34,12 @@ public class BeanCodecUtil
         while (!itr.equals(Object.class))
         {
           fields = (Field[])ArrayUtils.addAll(itr.getDeclaredFields(), fields);
-          
           itr = itr.getSuperclass();
         }
-        List<ByteFieldDesc> ret = new ArrayList(fields.length);
+        List<ByteFieldDesc> ret = new ArrayList<ByteFieldDesc>(fields.length);
         for (Field field : fields)
         {
-          ByteFieldDesc desc = BeanCodecUtil.this.field2Desc.genDesc(field);
+          ByteFieldDesc desc = field2Desc.genDesc(field);
           if (null != desc) {
             ret.add(desc);
           }

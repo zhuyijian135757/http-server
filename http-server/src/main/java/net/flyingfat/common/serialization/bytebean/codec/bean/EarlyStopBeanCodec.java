@@ -123,7 +123,7 @@ public class EarlyStopBeanCodec
   
   public int getStaticByteSize(Class<?> clazz)
   {
-    List<ByteFieldDesc> desces = this.util.getFieldDesces(clazz);
+    List<ByteFieldDesc> desces = util.getFieldDesces(clazz);
     if ((null == desces) || (desces.isEmpty())) {
       return -1;
     }
