@@ -58,7 +58,7 @@ public final class HttpServer implements SmartInitializingSingleton  {
             	    @Override
             	    public void initChannel(SocketChannel ch) {
             	        ChannelPipeline p = ch.pipeline();
-            	        if (getSSLContext() != null) {
+            	        if (sslCtx != null) {
             	            p.addLast(sslCtx.newHandler(ch.alloc()));
             	        }
             	        p.addLast(new HttpServerCodec());
@@ -77,7 +77,7 @@ public final class HttpServer implements SmartInitializingSingleton  {
         SslContext sslCtx = null;;
         if (ssl) {
             try {
-            	SelfSignedCertificate ssc = new SelfSignedCertificate();
+            	SelfSignedCertificate ssc = new SelfSignedCertificate("flyingfat.net");
 				sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
 			} catch (SSLException e) {
 				e.printStackTrace();

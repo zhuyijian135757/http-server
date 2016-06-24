@@ -103,8 +103,8 @@ public class HttpServerHandler extends
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-		if (!(cause.getCause() instanceof IOException)) {
-			logger.error("exceptionCaught: {} ", cause.getCause());
+		if (logger.isWarnEnabled()) {
+			logger.error("exceptionCaught: {} ", cause.getMessage());
 		}
 		ctx.channel().close();
 	}
