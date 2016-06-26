@@ -1,6 +1,6 @@
 #项目简介
-http-server是一个基于netty实现的http/https请求响应处理框架，通信采用自定义的二进制协议，相比hessian序列化内容更加紧凑。
+http-server是一个基于netty实现的http/https请求响应处理框架，通信采用自定义的二进制协议，相比hessian序列化内容更加紧凑。<br/>
 http-server的定位是一套轻量级http/https处理框架，而不是传统的http web处理框架，所以它不用实现http-servlet那套接口，
 因此也就不用嵌入tomcat，jetty之类的web容器。用netty去实现，主要考虑到netty在运用NIO模型处理IO密集型的高并发请求效果更加，其次netty上层的
-线程模型完全可以自己控制，非常灵活，传统的tomcat,jetty之类的web容器需要看懂源码才能做深入的优化，还有基于netty还可以构建一些简单的协议用于心跳包检测等。
+线程模型完全可以自己控制，非常灵活，传统的tomcat,jetty之类的web容器需要看懂源码才能做深入的优化，还有基于netty还可以构建一些简单的协议用于心跳包检测等。<br/>
 http-server整体采用Spring+netty实现，cache层采用的是ehcache(方便日后集群)，dao层采用的是myibatis，数据源采用的是druid，数据库目前用的是mysql。
